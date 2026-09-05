@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Magtanim ay 'Di Biro - Thesis Web App Draft</title>
+  <style>
+    :root {
+      --primary: #2e7d32;
+      --primary-light: #e8f5e9;
+      --secondary: #d84315;
+      --bg: #f4f6f8;
+      --text: #212121;
+      --card-bg: #ffffff;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 800px;
+      background: var(--card-bg);
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+      padding: 30px;
+      box-sizing: border-box;
+    }
+
+    header {
+      text-align: center;
+      border-bottom: 2px solid var(--primary-light);
+      padding-bottom: 15px;
+      margin-bottom: 25px;
+    }
+
+    h1 {
+      color: var(--primary);
+      margin: 0 0 10px 0;
+      font-size: 1.8rem;
+    }
+
+    .subtitle {
+      color: #666;
+      font-size: 0.95rem;
+    }
+
+    /* Progress Tracker */
+    .progress-bar {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+      position: relative;
+    }
+
+    .progress-bar::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: #e0e0e0;
+      z-index: 1;
+      transform: translateY(-50%);
+    }
+
+    .step-node {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: #e0e0e0;
+      color: #666;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      z-index: 2;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+    }
+
+    .step-node.active {
+      background: var(--primary);
+      color: white;
+      transform: scale(1.1);
+    }
+
+    .step-node.completed {
+      background: #81c784;
+      color: white;
+    }
+
+    /* Station Content Area */
+    .station-card {
+      display: none;
+    }
+
+    .station-card.active {
+      display: block;
+      animation: fadeIn 0.4s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .badge {
+      display: inline-block;
+      background: var(--primary-light);
+      color: var(--primary);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .scene-box {
+      background: #f9f9f9;
+      border-left: 4px solid var(--primary);
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 0 8px 8px 0;
+    }
+
+    .dialogue-box {
+      background: #fff8e1;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 20px;
+      border: 1px solid #ffe082;
+    }
+
+    .dialogue-line {
+      margin-bottom: 8px;
+      line-height: 1.4;
+    }
+
+    .dialogue-line:last-child {
+      margin-bottom: 0;
+    }
+
+    .speaker {
+      font-weight: bold;
+      color: #b71c1c;
+    }
+
+    .activity-box {
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+      padding: 20px;
+      background: #fafafa;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.2s;
+    }
+
+    .btn-option {
+      background: #e0e0e0;
+      color: var(--text);
+      flex: 1;
+    }
+
+    .btn-option:hover {
+      background: #d6d6d6;
+    }
+
+    .btn-nav {
+      background: var(--primary);
+      color: white;
+    }
+
+    .btn-nav:hover {
+      background: #1b5e20;
+    }
+
+    .btn-nav:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+    }
+
+    .feedback {
+      margin-top: 15px;
+      padding: 10px;
+      border-radius: 6px;
+      display: none;
+      font-size: 0.95rem;
+    }
+
+    .feedback.correct {
+      background: #c8e6c9;
+      color: #1b5e20;
+      display: block;
+    }
+
+    .feedback.incorrect {
+      background: #ffcdd2;
+      color: #b71c1c;
+      display: block;
+    }
+
+    .nav-footer {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 30px;
+      padding-top: 15px;
+      border-top: 1px solid #e0e0e0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <header>
+    <h1>Magtanim ay 'Di Biro: Story Map</h1>
+    <div class="subtitle">An Educational Web Exploration of Labor, Culture, and Society</div>
+  </header>
+
+  <!-- Progress Tracker -->
+  <div class="progress-bar">
+    <div class="step-node active" id="node-1">1</div>
+    <div class="step-node" id="node-2">2</div>
+    <div class="step-node" id="node-3">3</div>
+    <div class="step-node" id="node-4">4</div>
+    <div class="step-node" id="node-5">5</div>
+  </div>
+
+  <!-- STATION 1 -->
+  <div class="station-card active" id="station-1">
+    <span class="badge">STATION 1: Konteksto (Context)</span>
+    <h2>Awit bilang Bahagi ng Kulturang Pangkabukiran</h2>
+    
+    <div class="scene-box">
+      <strong>Eksena:</strong> Naglalakad si Mutya sa tabi ng bukirin habang naririnig ang lumang tugtog ng "Magtanim ay 'Di Biro" mula sa radyo ni Mang Isko.
+    </div>
+
+    <div class="dialogue-box">
+      <div class="dialogue-line"><span class="speaker">Mutya:</span> "Mang Isko, bakit po ba palaging itinuturo ang kantang ito sa paaralan bilang simpleng pambatang awit?"</div>
+      <div class="dialogue-line"><span class="speaker">Mang Isko:</span> "Naku Mutya, hindi lang iyan simpleng kanta. Iyan ay isang folk song at occupational dance na naglalarawan ng mismong pamumuhay at araw-araw na gawain naming mga magsasaka."</div>
+    </div>
+
+    <div class="activity-box">
+      <strong>Gawain / Tanong:</strong>
+      <p>Ang "Magtanim ay 'Di Biro" ba ay itinuturing na isang occupational dance at folk song na naglalarawan sa pamumuhay sa bukid?</p>
+      
+      <div class="btn-group">
+        <button class="btn-option" onclick="checkAnswer(1, true, true)">OO (Yes)</button>
+        <button class="btn-option" onclick="checkAnswer(1, false, true)">HINDI (No)</button>
+      </div>
+      <div class="feedback" id="feedback-1"></div>
+    </div>
+  </div>
+
+  <!-- STATION 2 -->
+  <div class="station-card" id="station-2">
+    <span class="badge">STATION 2: Teksto (Lyrics & Labor)</span>
+    <h2>Pisikal na Hirap ng Paggawa</h2>
+    
+    <div class="scene-box">
+      <strong>Eksena:</strong> Pinagmamasdan ni Mutya ang mga magsasakang nakayuko sa ilalim ng mainit na araw habang binabasa ang lyrics ng kanta.
+    </div>
+
+    <div class="dialogue-box">
+      <div class="dialogue-line"><span class="speaker">Mutya:</span> "Sabi sa lyrics, 'Buong araw nakayuko, 'di man lang makatayo.' Context clue pala ito sa totoong nangyayari sa katawan niyo!"</div>
+      <div class="dialogue-line"><span class="speaker">Mang Isko:</span> "Tumpak, Mutya. Ipinapakita ng bawat linya ang matinding pagod at pisikal na sakripisyo sa pagtatanim."</div>
+    </div>
+
+    <div class="activity-box">
+      <strong>Gawain / Tanong:</strong>
+      <p>Batay sa lyrics, ang pahayag ba na "buong araw nakayuko" ay nagpapahiwatig ng pisikal na hirap at pagod ng mga magsasaka?</p>
+      
+      <div class="btn-group">
+        <button class="btn-option" onclick="checkAnswer(2, true, true)">OO (Yes)</button>
+        <button class="btn-option" onclick="checkAnswer(2, false, true)">HINDI (No)</button>
+      </div>
+      <div class="feedback" id="feedback-2"></div>
+    </div>
+  </div>
+
+  <!-- STATION 3 -->
+  <div class="station-card" id="station-3">
+    <span class="badge">STATION 3: Pag-uugnay (Connection)</span>
+    <h2>Kolektibong Pagkilos at Produksyon</h2>
+    
+    <div class="scene-box">
+      <strong>Eksena:</strong> Nakikita ni Mutya ang grupo ng mga magsasaka na sabay-sabay ang galaw sa pagtatanim kasabay ng ritmo ng awit.
+    </div>
+
+    <div class="dialogue-box">
+      <div class="dialogue-line"><span class="speaker">Mutya:</span> "Hindi pala ito pang-isahang trabaho lamang, kundi isang sama-samang pagtutulungan para sa buong lipunan."</div>
+      <div class="dialogue-line"><span class="speaker">Mang Isko:</span> "Opo, sa pamamagitan ng kooperasyon, ang aming paggawa ay nagiging pagkain para sa bansa."</div>
+    </div>
+
+    <div class="activity-box">
+      <strong>Gawain / Tanong:</strong>
+      <p>Ang paggawa ba ng magsasaka ay may direktang kaugnayan sa kolektibong pagkilos at pagpapanatili ng produksyon ng pagkain sa lipunan?</p>
+      
+      <div class="btn-group">
+        <button class="btn-option" onclick="checkAnswer(3, true, true)">OO (Yes)</button>
+        <button class="btn-option" onclick="checkAnswer(3, false, true)">HINDI (No)</button>
+      </div>
+      <div class="feedback" id="feedback-3"></div>
+    </div>
+  </div>
+
+  <!-- STATION 4 -->
+  <div class="station-card" id="station-4">
+    <span class="badge">STATION 4: Diskurso (Social Issues)</span>
+    <h2>Kanta tungo sa Isyung Panlipunan & Policy</h2>
+    
+    <div class="scene-box">
+      <strong>Eksena:</strong> Ipinapakita ni Mang Isko kay Mutya ang mga lumang resibo ng utang at mga pataba mula sa panahon ng mga programang tulad ng Masagana 99.
+    </div>
+
+    <div class="dialogue-box">
+      <div class="dialogue-line"><span class="speaker">Mutya:</span> "Kahit pala may modernisasyon at bagong teknolohiya, nananatili pa rin ang usapin ng utang at hindi pantay na pagmamay-ari ng lupa?"</div>
+      <div class="dialogue-line"><span class="speaker">Mang Isko:</span> "Tama. Ang mga programa ay nagdala ng pagbabago, pero marami pa ring magsasaka ang naipit sa malaking pagkakautang at kawalan ng sariling lupa."</div>
+    </div>
+
+    <div class="activity-box">
+      <strong>Gawain / Tanong:</strong>
+      <p>Maaari bang maiugnay ang kasaysayan ng mga magsasaka sa mga isyung tulad ng pagkakautang, modernisasyon, at hindi pantay na sistema ng lupa?</p>
+      
+      <div class="btn-group">
+        <button class="btn-option" onclick="checkAnswer(4, true, true)">OO (Yes)</button>
+        <button class="btn-option" onclick="checkAnswer(4, false, true)">HINDI (No)</button>
+      </div>
+      <div class="feedback" id="feedback-4"></div>
+    </div>
+  </div>
+
+  <!-- STATION 5 -->
+  <div class="station-card" id="station-5">
+    <span class="badge">STATION 5: Paglalagom (Synthesis)</span>
+    <h2>Pag-unawa sa Awit Higit sa Simpleng Larawan</h2>
+    
+    <div class="scene-box">
+      <strong>Eksena:</strong> Nakatayo si Mutya sa gitna ng bukirin habang isinusulat ang kaniyang pagninilay sa kaniyang notebook.
+    </div>
+
+    <div class="dialogue-box">
+      <div class="dialogue-line"><span class="speaker">Mutya:</span> "Nawa'y hindi lang natin tingnan ang 'Magtanim ay 'Di Biro' bilang magandang awit sa bukid, kundi bilang paanyaya na kilalanin ang tunay na kalagayan at laban ng mga magsasaka."</div>
+      <div class="dialogue-line"><span class="speaker">Mang Isko:</span> "Magaling, Mutya! Iyan ang tunay na layunin ng ating pag-aaral."</div>
+    </div>
+
+    <div class="activity-box">
+      <strong>Gawain / Tanong:</strong>
+      <p>Ang "Magtanim ay 'Di Biro" ba ay maaari ring basahin bilang reflective text sa kalagayang panlipunan at politika ng paggawa sa agrikultura?</p>
+      
+      <div class="btn-group">
+        <button class="btn-option" onclick="checkAnswer(5, true, true)">OO (Yes)</button>
+        <button class="btn-option" onclick="checkAnswer(5, false, true)">HINDI (No)</button>
+      </div>
+      <div class="feedback" id="feedback-5"></div>
+    </div>
+  </div>
+
+  <!-- Navigation Buttons -->
+  <div class="nav-footer">
+    <button class="btn-nav" id="prevBtn" onclick="navigate(-1)" disabled>Previous</button>
+    <button class="btn-nav" id="nextBtn" onclick="navigate(1)">Next Station</button>
+  </div>
+</div>
+
+<script>
+  let currentStation = 1;
+  const totalStations = 5;
+  const answered = {1: false, 2: false, 3: false, 4: false, 5: false};
+
+  function updateUI() {
+    // Hide all stations, show active
+    document.querySelectorAll('.station-card').forEach((card, idx) => {
+      card.classList.toggle('active', idx + 1 === currentStation);
+    });
+
+    // Update progress nodes
+    for (let i = 1; i <= totalStations; i++) {
+      const node = document.getElementById(`node-${i}`);
+      node.classList.remove('active', 'completed');
+      if (i === currentStation) node.classList.add('active');
+      else if (i < currentStation) node.classList.add('completed');
+    }
+
+    // Update nav buttons
+    document.getElementById('prevBtn').disabled = (currentStation === 1);
+    const nextBtn = document.getElementById('nextBtn');
+    
+    if (currentStation === totalStations) {
+      nextBtn.innerText = "Finish Module";
+    } else {
+      nextBtn.innerText = "Next Station";
+    }
+  }
+
+  function navigate(direction) {
+    if (direction === 1 && currentStation < totalStations) {
+      currentStation++;
+      updateUI();
+    } else if (direction === -1 && currentStation > 1) {
+      currentStation--;
+      updateUI();
+    } else if (direction === 1 && currentStation === totalStations) {
+      alert("Congratulations! You have completed the Story Map draft module.");
+    }
+  }
+
+  function checkAnswer(stationNum, userChoice, correctAnswer) {
+    const feedbackEl = document.getElementById(`feedback-${stationNum}`);
+    if (userChoice === correctAnswer) {
+      feedbackEl.className = "feedback correct";
+      feedbackEl.innerText = "Tama! (Correct!) You have grasped the key learning objective for this station.";
+    } else {
+      feedbackEl.className = "feedback incorrect";
+      feedbackEl.innerText = "Mali. (Incorrect.) Try reviewing the scene dialogue again.";
+    }
+    answered[stationNum] = true;
+  }
+</script>
+
+</body>
+</html>
