@@ -373,7 +373,7 @@
       }
 
       .option-grid {
-        grid-template-columns: 1fr; /* Stacks OO / HINDI on mobile */
+        grid-template-columns: 1fr;
       }
 
       .nav-bar {
@@ -407,12 +407,12 @@
   <div class="content-body">
     <!-- START / WELCOME SCREEN -->
     <div class="welcome-card" id="welcome-screen">
-      <h2>Welcome to Our Thesis Exploration!</h2>
+      <h2>Welcome to Our Thesis Exploration</h2>
       <p>
         Step into an interactive journey exploring the popular Philippine folk song <strong>"Magtanim ay 'Di Biro."</strong> Follow <strong>Mutya</strong> and <strong>Mang Isko</strong> across 5 interactive stations to discover the song's cultural context, physical labor, collective action, and socio-economic realities.
       </p>
       <button class="btn-primary" onclick="startJourney()">
-        Start Journey ➔
+        Start Journey &rarr;
       </button>
     </div>
 
@@ -431,7 +431,7 @@
       <h2 class="station-title">Awit bilang Bahagi ng Kulturang Pangkabukiran</h2>
       
       <div class="scene-card">
-        <strong>📍 Eksena:</strong> Naglalakad si Mutya sa tabi ng bukirin habang naririnig ang lumang tugtog ng "Magtanim ay 'Di Biro" mula sa radyo ni Mang Isko.
+        <strong>Eksena:</strong> Naglalakad si Mutya sa tabi ng bukirin habang naririnig ang lumang tugtog ng "Magtanim ay 'Di Biro" mula sa radyo ni Mang Isko.
       </div>
 
       <div class="dialogue-wrapper">
@@ -461,7 +461,7 @@
       <h2 class="station-title">Pisikal na Hirap ng Paggawa</h2>
       
       <div class="scene-card">
-        <strong>📍 Eksena:</strong> Pinagmamasdan ni Mutya ang mga magsasakang nakayuko sa ilalim ng mainit na araw habang binabasa ang lyrics ng kanta.
+        <strong>Eksena:</strong> Pinagmamasdan ni Mutya ang mga magsasakang nakayuko sa ilalim ng mainit na araw habang binabasa ang lyrics ng kanta.
       </div>
 
       <div class="dialogue-wrapper">
@@ -491,7 +491,7 @@
       <h2 class="station-title">Kolektibong Pagkilos at Produksyon</h2>
       
       <div class="scene-card">
-        <strong>📍 Eksena:</strong> Nakikita ni Mutya ang grupo ng mga magsasaka na sabay-sabay ang galaw sa pagtatanim kasabay ng ritmo ng awit.
+        <strong>Eksena:</strong> Nakikita ni Mutya ang grupo ng mga magsasaka na sabay-sabay ang galaw sa pagtatanim kasabay ng ritmo ng awit.
       </div>
 
       <div class="dialogue-wrapper">
@@ -521,7 +521,7 @@
       <h2 class="station-title">Kanta tungo sa Isyung Panlipunan & Policy</h2>
       
       <div class="scene-card">
-        <strong>📍 Eksena:</strong> Ipinapakita ni Mang Isko kay Mutya ang mga lumang resibo ng utang at mga pataba mula sa panahon ng mga programang tulad ng Masagana 99.
+        <strong>Eksena:</strong> Ipinapakita ni Mang Isko kay Mutya ang mga lumang resibo ng utang at mga pataba mula sa panahon ng mga programang tulad ng Masagana 99.
       </div>
 
       <div class="dialogue-wrapper">
@@ -551,7 +551,7 @@
       <h2 class="station-title">Pag-unawa sa Awit Higit sa Simpleng Larawan</h2>
       
       <div class="scene-card">
-        <strong>📍 Eksena:</strong> Nakatayo si Mutya sa gitna ng bukirin habang isinusulat ang kaniyang pagninilay sa kaniyang notebook.
+        <strong>Eksena:</strong> Nakatayo si Mutya sa gitna ng bukirin habang isinusulat ang kaniyang pagninilay sa kaniyang notebook.
       </div>
 
       <div class="dialogue-wrapper">
@@ -577,10 +577,10 @@
 
     <!-- NAVIGATION BAR -->
     <div class="nav-bar" id="nav-bar">
-      <button class="btn-secondary" onclick="goToStart()">🏠 Start</button>
+      <button class="btn-secondary" onclick="goToStart()">Start</button>
       <div class="nav-group-right">
         <button class="btn-secondary" id="prevBtn" onclick="navigate(-1)" disabled>Previous</button>
-        <button class="btn-primary" id="nextBtn" style="padding: 10px 20px; font-size: 0.9rem;" onclick="navigate(1)">Next ➔</button>
+        <button class="btn-primary" id="nextBtn" style="padding: 10px 20px; font-size: 0.9rem;" onclick="navigate(1)">Next &rarr;</button>
       </div>
     </div>
   </div>
@@ -622,9 +622,9 @@
     const nextBtn = document.getElementById('nextBtn');
     
     if (currentStation === totalStations) {
-      nextBtn.innerText = "Finish Module 🎉";
+      nextBtn.innerText = "Finish Module";
     } else {
-      nextBtn.innerText = "Next Station ➔";
+      nextBtn.innerHTML = "Next &rarr;";
     }
   }
 
@@ -644,10 +644,10 @@
     const feedbackEl = document.getElementById(`feedback-${stationNum}`);
     if (userChoice === correctAnswer) {
       feedbackEl.className = "feedback-message correct";
-      feedbackEl.innerText = "✓ Tama! (Correct!) You have grasped the key concept for this station.";
+      feedbackEl.innerText = "Correct. You have grasped the key concept for this station.";
     } else {
       feedbackEl.className = "feedback-message incorrect";
-      feedbackEl.innerText = "✕ Mali. (Incorrect.) Try reviewing the scene dialogue again.";
+      feedbackEl.innerText = "Incorrect. Try reviewing the scene dialogue again.";
     }
   }
 </script>
