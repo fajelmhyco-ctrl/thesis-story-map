@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Magtanim ay 'Di Biro - Interactive Story Map</title>
+  <title>Magtanim ay 'Di Biro - Interactive Thesis App</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
@@ -25,7 +25,7 @@
       padding: 0;
     }
 
-    /* main background layout */
+    /* main layout */
     body {
       font-family: 'Inter', sans-serif;
       background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
@@ -51,12 +51,13 @@
       border: 1px solid rgba(255, 255, 255, 0.4);
     }
 
-    /* header styling */
+    /* top header bar */
     header {
       background: var(--primary-gradient);
       color: #ffffff;
       padding: clamp(14px, 3vw, 20px) clamp(16px, 4vw, 25px);
       text-align: center;
+      position: relative;
     }
 
     header h1 {
@@ -70,14 +71,48 @@
     header p {
       font-size: clamp(0.75rem, 2.5vw, 0.9rem);
       opacity: 0.9;
-      font-weight: 400;
+    }
+
+    .mode-switch {
+      position: absolute;
+      top: 15px;
+      right: 15px;
+    }
+
+    .btn-toggle-admin {
+      background: rgba(255, 255, 255, 0.2);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      cursor: pointer;
+    }
+
+    .btn-toggle-admin:hover {
+      background: rgba(255, 255, 255, 0.3);
     }
 
     .content-body {
       padding: clamp(14px, 3.5vw, 25px) clamp(12px, 3vw, 20px);
     }
 
-    /* welcome card styling */
+    /* timer bar */
+    .timer-container {
+      display: none;
+      justify-content: space-between;
+      align-items: center;
+      background: #fff3cd;
+      border: 1px solid #ffe8a1;
+      padding: 10px 16px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: #856404;
+    }
+
+    /* welcome card */
     .welcome-card {
       text-align: center;
       padding: clamp(20px, 4vw, 30px) clamp(12px, 3vw, 18px);
@@ -99,10 +134,21 @@
       line-height: 1.6;
       color: var(--text-dark);
       max-width: 620px;
-      margin: 0 auto 25px auto;
+      margin: 0 auto 20px auto;
     }
 
-    /* button components */
+    .student-input {
+      width: 100%;
+      max-width: 320px;
+      padding: 10px 14px;
+      margin-bottom: 20px;
+      border: 2px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 0.95rem;
+      text-align: center;
+    }
+
+    /* button styling */
     .btn-primary {
       background: var(--primary-gradient);
       color: #ffffff;
@@ -126,7 +172,28 @@
       box-shadow: 0 6px 18px rgba(46, 125, 50, 0.4);
     }
 
-    /* progress tracker styling */
+    /* audio player component */
+    .audio-player-box {
+      margin: 15px 0;
+      padding: 12px;
+      background: #f1f5f9;
+      border-radius: 10px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .audio-player-box p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      font-weight: 600;
+    }
+
+    audio {
+      width: 100%;
+      height: 36px;
+    }
+
+    /* progress bar */
     .progress-bar {
       display: none;
       justify-content: space-between;
@@ -177,7 +244,7 @@
       color: #ffffff;
     }
 
-    /* station card component */
+    /* station cards */
     .station-card {
       display: none;
       animation: fadeIn 0.4s ease-out;
@@ -222,7 +289,6 @@
       line-height: 1.5;
     }
 
-    /* dialogue components */
     .dialogue-wrapper {
       background: #fffbeb;
       border: 1px solid #fef3c7;
@@ -255,7 +321,6 @@
     .avatar.mutya { background: var(--mutya-color); }
     .avatar.isko { background: var(--isko-color); }
 
-    /* quiz card component */
     .quiz-card {
       background: #ffffff;
       border: 2px solid #e2e8f0;
@@ -288,36 +353,12 @@
       width: 100%;
     }
 
-    .btn-quiz:hover {
+    .btn-quiz.selected {
       border-color: var(--primary-green);
-      background: #f0fdf4;
+      background: #e8f5e9;
       color: var(--primary-green);
     }
 
-    .feedback-message {
-      margin-top: 14px;
-      padding: 10px 14px;
-      border-radius: 8px;
-      font-weight: 500;
-      font-size: clamp(0.8rem, 2.2vw, 0.9rem);
-      display: none;
-    }
-
-    .feedback-message.correct {
-      background: #dcfce7;
-      color: #15803d;
-      border: 1px solid #bbf7d0;
-      display: block;
-    }
-
-    .feedback-message.incorrect {
-      background: #fee2e2;
-      color: #b91c1c;
-      border: 1px solid #fecaca;
-      display: block;
-    }
-
-    /* navigation bar styling */
     .nav-bar {
       display: none;
       justify-content: space-between;
@@ -344,39 +385,64 @@
       font-size: clamp(0.8rem, 2.2vw, 0.88rem);
     }
 
-    .btn-secondary:hover { background: #cbd5e1; }
     .btn-secondary:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    /* responsive media queries */
-    @media (max-width: 500px) {
-      .option-grid {
-        grid-template-columns: 1fr;
-      }
-
-      .nav-bar {
-        flex-direction: column-reverse;
-        gap: 10px;
-      }
-
-      .nav-bar > button, .nav-group-right {
-        width: 100%;
-      }
-
-      .nav-group-right {
-        justify-content: space-between;
-      }
-
-      .btn-secondary, .btn-primary {
-        text-align: center;
-        justify-content: center;
-      }
+    /* admin panel styling */
+    .admin-panel {
+      display: none;
     }
 
-    @media (max-width: 340px) {
-      .chat-bubble {
-        flex-direction: column;
-        align-items: flex-start;
-      }
+    .admin-section {
+      background: #ffffff;
+      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      padding: 18px;
+      margin-bottom: 20px;
+    }
+
+    .admin-section h3 {
+      font-size: 1.1rem;
+      margin-bottom: 14px;
+      color: var(--primary-green);
+    }
+
+    .admin-input, .admin-textarea, .admin-select {
+      width: 100%;
+      padding: 8px 12px;
+      margin-bottom: 10px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-family: inherit;
+      font-size: 0.9rem;
+    }
+
+    .admin-table-container {
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+      text-align: left;
+    }
+
+    th, td {
+      padding: 10px;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    th {
+      background: #f8fafc;
+      color: var(--text-dark);
+    }
+
+    @media (max-width: 500px) {
+      .option-grid { grid-template-columns: 1fr; }
+      .nav-bar { flex-direction: column-reverse; gap: 10px; }
+      .nav-bar > button, .nav-group-right { width: 100%; }
+      .nav-group-right { justify-content: space-between; }
+      .btn-secondary, .btn-primary { text-align: center; justify-content: center; }
     }
   </style>
 </head>
@@ -384,23 +450,38 @@
 
 <div class="main-wrapper">
   <header>
-    <h1>Magtanim ay 'Di Biro</h1>
-    <p>An Interactive Story Map on Labor, Culture, and Society</p>
+    <div class="mode-switch">
+      <button class="btn-toggle-admin" id="adminToggleBtn" onclick="toggleAdminView()">Admin Mode</button>
+    </div>
+    <h1 id="appTitle">Magtanim ay 'Di Biro</h1>
+    <p id="appSubtitle">An Interactive Story Map on Labor, Culture, and Society</p>
   </header>
 
   <div class="content-body">
-    <!-- start / welcome screen -->
+    
+    <!-- timer header -->
+    <div class="timer-container" id="timerContainer">
+      <span>Student: <span id="displayStudentName">---</span></span>
+      <span>Time Remaining: <span id="timerDisplay">30:00</span></span>
+    </div>
+
+    <!-- STUDENT / WELCOME SCREEN -->
     <div class="welcome-card" id="welcome-screen">
       <h2>Welcome to Our Thesis Exploration</h2>
       <p>
         Step into an interactive journey exploring the popular Philippine folk song <strong>"Magtanim ay 'Di Biro."</strong> Follow <strong>Mutya</strong> and <strong>Mang Isko</strong> across 5 interactive stations to discover the song's cultural context, physical labor, collective action, and socio-economic realities.
       </p>
+
+      <div>
+        <input type="text" id="studentNameInput" class="student-input" placeholder="Enter Full Name to Begin" required />
+      </div>
+
       <button class="btn-primary" onclick="startJourney()">
         Start Journey &rarr;
       </button>
     </div>
 
-    <!-- progress tracker -->
+    <!-- progress bar -->
     <div class="progress-bar" id="progress-bar">
       <div class="step-node active" id="node-1">1</div>
       <div class="step-node" id="node-2">2</div>
@@ -409,157 +490,10 @@
       <div class="step-node" id="node-5">5</div>
     </div>
 
-    <!-- station 1 -->
-    <div class="station-card" id="station-1">
-      <span class="station-badge">Station 1: Konteksto (Context)</span>
-      <h2 class="station-title">Awit bilang Bahagi ng Kulturang Pangkabukiran</h2>
-      
-      <div class="scene-card">
-        <strong>Eksena:</strong> Naglalakad si Mutya sa tabi ng bukirin habang naririnig ang lumang tugtog ng "Magtanim ay 'Di Biro" mula sa radyo ni Mang Isko.
-      </div>
+    <!-- STATION CARDS CONTAINER -->
+    <div id="stationsContainer"></div>
 
-      <div class="dialogue-wrapper">
-        <div class="chat-bubble">
-          <span class="avatar mutya">Mutya</span>
-          <div>"Mang Isko, bakit po ba palaging itinuturo ang kantang ito sa paaralan bilang simpleng pambatang awit?"</div>
-        </div>
-        <div class="chat-bubble">
-          <span class="avatar isko">Mang Isko</span>
-          <div>"Naku Mutya, hindi lang iyan simpleng kanta. Iyan ay isang folk song at occupational dance na naglalarawan ng mismong pamumuhay at araw-araw na gawain naming mga magsasaka."</div>
-        </div>
-      </div>
-
-      <div class="quiz-card">
-        <p>Gawain: Ang "Magtanim ay 'Di Biro" ba ay itinuturing na isang occupational dance at folk song na naglalarawan sa pamumuhay sa bukid?</p>
-        <div class="option-grid">
-          <button class="btn-quiz" onclick="checkAnswer(1, true, true)">OO (Yes)</button>
-          <button class="btn-quiz" onclick="checkAnswer(1, false, true)">HINDI (No)</button>
-        </div>
-        <div class="feedback-message" id="feedback-1"></div>
-      </div>
-    </div>
-
-    <!-- station 2 -->
-    <div class="station-card" id="station-2">
-      <span class="station-badge">Station 2: Teksto (Lyrics & Labor)</span>
-      <h2 class="station-title">Pisikal na Hirap ng Paggawa</h2>
-      
-      <div class="scene-card">
-        <strong>Eksena:</strong> Pinagmamasdan ni Mutya ang mga magsasakang nakayuko sa ilalim ng mainit na araw habang binabasa ang lyrics ng kanta.
-      </div>
-
-      <div class="dialogue-wrapper">
-        <div class="chat-bubble">
-          <span class="avatar mutya">Mutya</span>
-          <div>"Sabi sa lyrics, 'Buong araw nakayuko, 'di man lang makatayo.' Context clue pala ito sa totoong nangyayari sa katawan niyo!"</div>
-        </div>
-        <div class="chat-bubble">
-          <span class="avatar isko">Mang Isko</span>
-          <div>"Tumpak, Mutya. Ipinapakita ng bawat linya ang matinding pagod at pisikal na sakripisyo sa pagtatanim."</div>
-        </div>
-      </div>
-
-      <div class="quiz-card">
-        <p>Gawain: Batay sa lyrics, ang pahayag ba na "buong araw nakayuko" ay nagpapahiwatig ng pisikal na hirap at pagod ng mga magsasaka?</p>
-        <div class="option-grid">
-          <button class="btn-quiz" onclick="checkAnswer(2, true, true)">OO (Yes)</button>
-          <button class="btn-quiz" onclick="checkAnswer(2, false, true)">HINDI (No)</button>
-        </div>
-        <div class="feedback-message" id="feedback-2"></div>
-      </div>
-    </div>
-
-    <!-- station 3 -->
-    <div class="station-card" id="station-3">
-      <span class="station-badge">Station 3: Pag-uugnay (Connection)</span>
-      <h2 class="station-title">Kolektibong Pagkilos at Produksyon</h2>
-      
-      <div class="scene-card">
-        <strong>Eksena:</strong> Nakikita ni Mutya ang grupo ng mga magsasaka na sabay-sabay ang galaw sa pagtatanim kasabay ng ritmo ng awit.
-      </div>
-
-      <div class="dialogue-wrapper">
-        <div class="chat-bubble">
-          <span class="avatar mutya">Mutya</span>
-          <div>"Hindi pala ito pang-isahang trabaho lamang, kundi isang sama-samang pagtutulungan para sa buong lipunan."</div>
-        </div>
-        <div class="chat-bubble">
-          <span class="avatar isko">Mang Isko</span>
-          <div>"Opo, sa pamamagitan ng kooperasyon, ang aming paggawa ay nagiging pagkain para sa bansa."</div>
-        </div>
-      </div>
-
-      <div class="quiz-card">
-        <p>Gawain: Ang paggawa ba ng magsasaka ay may direktang kaugnayan sa kolektibong pagkilos at pagpapanatili ng produksyon ng pagkain sa lipunan?</p>
-        <div class="option-grid">
-          <button class="btn-quiz" onclick="checkAnswer(3, true, true)">OO (Yes)</button>
-          <button class="btn-quiz" onclick="checkAnswer(3, false, true)">HINDI (No)</button>
-        </div>
-        <div class="feedback-message" id="feedback-3"></div>
-      </div>
-    </div>
-
-    <!-- station 4 -->
-    <div class="station-card" id="station-4">
-      <span class="station-badge">Station 4: Diskurso (Social Issues)</span>
-      <h2 class="station-title">Kanta tungo sa Isyung Panlipunan & Policy</h2>
-      
-      <div class="scene-card">
-        <strong>Eksena:</strong> Ipinapakita ni Mang Isko kay Mutya ang mga lumang resibo ng utang at mga pataba mula sa panahon ng mga programang tulad ng Masagana 99.
-      </div>
-
-      <div class="dialogue-wrapper">
-        <div class="chat-bubble">
-          <span class="avatar mutya">Mutya</span>
-          <div>"Kahit pala may modernisasyon at bagong teknolohiya, nananatili pa rin ang usapin ng utang at hindi pantay na pagmamay-ari ngupa?"</div>
-        </div>
-        <div class="chat-bubble">
-          <span class="avatar isko">Mang Isko</span>
-          <div>"Tama. Ang mga programa ay nagdala ng pagbabago, pero marami pa ring magsasaka ang naipit sa malaking pagkakautang at kawalan ng sariling lupa."</div>
-        </div>
-      </div>
-
-      <div class="quiz-card">
-        <p>Gawain: Maaari bang maiugnay ang kasaysayan ng mga magsasaka sa mga isyung tulad ng pagkakautang, modernisasyon, at hindi pantay na sistema ng lupa?</p>
-        <div class="option-grid">
-          <button class="btn-quiz" onclick="checkAnswer(4, true, true)">OO (Yes)</button>
-          <button class="btn-quiz" onclick="checkAnswer(4, false, true)">HINDI (No)</button>
-        </div>
-        <div class="feedback-message" id="feedback-4"></div>
-      </div>
-    </div>
-
-    <!-- station 5 -->
-    <div class="station-card" id="station-5">
-      <span class="station-badge">Station 5: Paglalagom (Synthesis)</span>
-      <h2 class="station-title">Pag-unawa sa Awit Higit sa Simpleng Larawan</h2>
-      
-      <div class="scene-card">
-        <strong>Eksena:</strong> Nakatayo si Mutya sa gitna ng bukirin habang isinusulat ang kaniyang pagninilay sa kaniyang notebook.
-      </div>
-
-      <div class="dialogue-wrapper">
-        <div class="chat-bubble">
-          <span class="avatar mutya">Mutya</span>
-          <div>"Nawa'y hindi lang natin tingnan ang 'Magtanim ay 'Di Biro' bilang magandang awit sa bukid, kundi bilang paanyaya na kilalanin ang tunay na kalagayan at laban ng mga magsasaka."</div>
-        </div>
-        <div class="chat-bubble">
-          <span class="avatar isko">Mang Isko</span>
-          <div>"Magaling, Mutya! Iyan ang tunay na layunin ng ating pag-aaral."</div>
-        </div>
-      </div>
-
-      <div class="quiz-card">
-        <p>Gawain: Ang "Magtanim ay 'Di Biro" ba ay maaari ring basahin bilang reflective text sa kalagayang panlipunan at politika ng paggawa sa agrikultura?</p>
-        <div class="option-grid">
-          <button class="btn-quiz" onclick="checkAnswer(5, true, true)">OO (Yes)</button>
-          <button class="btn-quiz" onclick="checkAnswer(5, false, true)">HINDI (No)</button>
-        </div>
-        <div class="feedback-message" id="feedback-5"></div>
-      </div>
-    </div>
-
-    <!-- navigation bar -->
+    <!-- NAVIGATION BAR -->
     <div class="nav-bar" id="nav-bar">
       <button class="btn-secondary" onclick="goToStart()">Start</button>
       <div class="nav-group-right">
@@ -567,27 +501,194 @@
         <button class="btn-primary" id="nextBtn" style="padding: 10px 20px; font-size: 0.9rem;" onclick="navigate(1)">Next &rarr;</button>
       </div>
     </div>
+
+    <!-- ADMIN PANEL -->
+    <div class="admin-panel" id="adminPanel">
+      
+      <!-- Audio Management -->
+      <div class="admin-section">
+        <h3>1. Audio Settings</h3>
+        <p style="font-size:0.85rem; margin-bottom:10px;">Upload an audio file for the station track playback.</p>
+        <select id="adminAudioStation" class="admin-select">
+          <option value="1">Station 1 Track</option>
+          <option value="2">Station 2 Track</option>
+          <option value="3">Station 3 Track</option>
+          <option value="4">Station 4 Track</option>
+          <option value="5">Station 5 Track</option>
+        </select>
+        <input type="file" id="audioFileInput" accept="audio/*" class="admin-input" />
+        <button class="btn-secondary" onclick="uploadAudio()">Save Audio Track</button>
+      </div>
+
+      <!-- Quiz Management -->
+      <div class="admin-section">
+        <h3>2. Quiz Management</h3>
+        <select id="adminQuizStation" class="admin-select">
+          <option value="1">Station 1 Question</option>
+          <option value="2">Station 2 Question</option>
+          <option value="3">Station 3 Question</option>
+          <option value="4">Station 4 Question</option>
+          <option value="5">Station 5 Question</option>
+        </select>
+        <textarea id="adminQuestionText" class="admin-textarea" rows="3" placeholder="Enter Question Text"></textarea>
+        <select id="adminCorrectAnswer" class="admin-select">
+          <option value="true">Correct Answer: OO (Yes)</option>
+          <option value="false">Correct Answer: HINDI (No)</option>
+        </select>
+        <button class="btn-secondary" onclick="saveQuizQuestion()">Update Question</button>
+      </div>
+
+      <!-- Student Results Evaluation -->
+      <div class="admin-section">
+        <h3>3. Student Evaluation & Score Submissions</h3>
+        <button class="btn-secondary" style="margin-bottom:12px;" onclick="clearResults()">Clear All Records</button>
+        <div class="admin-table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Student Name</th>
+                <th>Score</th>
+                <th>Time Taken</th>
+                <th>Date Submitted</th>
+              </tr>
+            </thead>
+            <tbody id="resultsTableBody">
+              <tr><td colspan="4" style="text-align:center;">No submissions recorded yet.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
   </div>
 </div>
 
 <script>
+  // default data setup
+  const defaultQuestions = {
+    1: { text: 'Ang "Magtanim ay \'Di Biro" ba ay itinuturing na isang occupational dance at folk song na naglalarawan sa pamumuhay sa bukid?', answer: true },
+    2: { text: 'Batay sa lyrics, ang pahayag ba na "buong araw nakayuko" ay nagpapahiwatig ng pisikal na hirap at pagod ng mga magsasaka?', answer: true },
+    3: { text: 'Ang paggawa ba ng magsasaka ay may direktang kaugnayan sa kolektibong pagkilos at pagpapanatili ng produksyon ng pagkain sa lipunan?', answer: true },
+    4: { text: 'Maaari bang maiugnay ang kasaysayan ng mga magsasaka sa mga isyung tulad ng pagkakautang, modernisasyon, at hindi pantay na sistema ng lupa?', answer: true },
+    5: { text: 'Ang "Magtanim ay \'Di Biro" ba ay maaari ring basahin bilang reflective text sa kalagayang panlipunan at politika ng paggawa sa agrikultura?', answer: true }
+  };
+
+  const defaultScenes = {
+    1: { badge: "Station 1: Konteksto (Context)", title: "Awit bilang Bahagi ng Kulturang Pangkabukiran", scene: "Naglalakad si Mutya sa tabi ng bukirin habang naririnig ang lumang tugtog ng \"Magtanim ay 'Di Biro\" mula sa radyo ni Mang Isko.", mutya: "Mang Isko, bakit po ba palaging itinuturo ang kantang ito sa paaralan bilang simpleng pambatang awit?", isko: "Naku Mutya, hindi lang iyan simpleng kanta. Iyan ay isang folk song at occupational dance na naglalarawan ng mismong pamumuhay at araw-araw na gawain naming mga magsasaka." },
+    2: { badge: "Station 2: Teksto (Lyrics & Labor)", title: "Pisikal na Hirap ng Paggawa", scene: "Pinagmamasdan ni Mutya ang mga magsasakang nakayuko sa ilalim ng mainit na araw habang binabasa ang lyrics ng kanta.", mutya: "Sabi sa lyrics, 'Buong araw nakayuko, 'di man lang makatayo.' Context clue pala ito sa totoong nangyayari sa katawan niyo!", isko: "Tumpak, Mutya. Ipinapakita ng bawat linya ang matinding pagod at pisikal na sakripisyo sa pagtatanim." },
+    3: { badge: "Station 3: Pag-uugnay (Connection)", title: "Kolektibong Pagkilos at Produksyon", scene: "Nakikita ni Mutya ang grupo ng mga magsasaka na sabay-sabay ang galaw sa pagtatanim kasabay ng ritmo ng awit.", mutya: "Hindi pala ito pang-isahang trabaho lamang, kundi isang sama-samang pagtutulungan para sa buong lipunan.", isko: "Opo, sa pamamagitan ng kooperasyon, ang aming paggawa ay nagiging pagkain para sa bansa." },
+    4: { badge: "Station 4: Diskurso (Social Issues)", title: "Kanta tungo sa Isyung Panlipunan & Policy", scene: "Ipinapakita ni Mang Isko kay Mutya ang mga lumang resibo ng utang at mga pataba mula sa panahon ng mga programang tulad ng Masagana 99.", mutya: "Kahit pala may modernisasyon at bagong teknolohiya, nananatili pa rin ang usapin ng utang at hindi pantay na pagmamay-ari ng lupa?", isko: "Tama. Ang mga programa ay nagdala ng pagbabago, pero marami pa ring magsasaka ang naipit sa malaking pagkakautang at kawalan ng sariling lupa." },
+    5: { badge: "Station 5: Paglalagom (Synthesis)", title: "Pag-unawa sa Awit Higit sa Simpleng Larawan", scene: "Nakatayo si Mutya sa gitna ng bukirin habang isinusulat ang kaniyang pagninilay sa kaniyang notebook.", mutya: "Nawa'y hindi lang natin tingnan ang 'Magtanim ay 'Di Biro' bilang magandang awit sa bukid, kundi bilang paanyaya na kilalanin ang tunay na kalagayan at laban ng mga magsasaka.", isko: "Magaling, Mutya! Iyan ang tunay na layunin ng ating pag-aaral." }
+  };
+
+  // app state
   let currentStation = 0;
   const totalStations = 5;
+  let studentName = "";
+  let studentAnswers = {};
+  let timerInterval = null;
+  let timeRemaining = 30 * 60; // 30 minutes in seconds
+  let isAdminView = false;
 
+  // storage initialization
+  function getQuestions() {
+    return JSON.parse(localStorage.getItem('thesis_questions')) || defaultQuestions;
+  }
+
+  function getAudioTracks() {
+    return JSON.parse(localStorage.getItem('thesis_audio_tracks')) || {};
+  }
+
+  function getResults() {
+    return JSON.parse(localStorage.getItem('thesis_student_results')) || [];
+  }
+
+  // render station dynamic cards
+  function renderStations() {
+    const questions = getQuestions();
+    const audioTracks = getAudioTracks();
+    const container = document.getElementById('stationsContainer');
+    container.innerHTML = '';
+
+    for (let i = 1; i <= totalStations; i++) {
+      const data = defaultScenes[i];
+      const q = questions[i];
+      const audioSrc = audioTracks[i] || '';
+
+      const card = document.createElement('div');
+      card.className = 'station-card';
+      card.id = `station-${i}`;
+      card.innerHTML = `
+        <span class="station-badge">${data.badge}</span>
+        <h2 class="station-title">${data.title}</h2>
+        
+        ${audioSrc ? `
+          <div class="audio-player-box">
+            <p>Station Audio Track:</p>
+            <audio controls src="${audioSrc}"></audio>
+          </div>
+        ` : ''}
+
+        <div class="scene-card">
+          <strong>Eksena:</strong> ${data.scene}
+        </div>
+
+        <div class="dialogue-wrapper">
+          <div class="chat-bubble">
+            <span class="avatar mutya">Mutya</span>
+            <div>"${data.mutya}"</div>
+          </div>
+          <div class="chat-bubble">
+            <span class="avatar isko">Mang Isko</span>
+            <div>"${data.isko}"</div>
+          </div>
+        </div>
+
+        <div class="quiz-card">
+          <p>Gawain: ${q.text}</p>
+          <div class="option-grid">
+            <button class="btn-quiz" id="btn-st-${i}-true" onclick="selectAnswer(${i}, true)">OO (Yes)</button>
+            <button class="btn-quiz" id="btn-st-${i}-false" onclick="selectAnswer(${i}, false)">HINDI (No)</button>
+          </div>
+        </div>
+      `;
+      container.appendChild(card);
+    }
+  }
+
+  // journey flow controls
   function startJourney() {
+    const input = document.getElementById('studentNameInput');
+    if (!input.value.trim()) {
+      alert("Please enter your full name to begin the evaluation.");
+      return;
+    }
+
+    studentName = input.value.trim();
+    document.getElementById('displayStudentName').innerText = studentName;
     document.getElementById('welcome-screen').style.display = 'none';
+    document.getElementById('timerContainer').style.display = 'flex';
     document.getElementById('progress-bar').style.display = 'flex';
     document.getElementById('nav-bar').style.display = 'flex';
+    
     currentStation = 1;
+    startTimer();
     updateUI();
   }
 
   function goToStart() {
-    document.getElementById('welcome-screen').style.display = 'block';
-    document.getElementById('progress-bar').style.display = 'none';
-    document.getElementById('nav-bar').style.display = 'none';
-    document.querySelectorAll('.station-card').forEach(card => card.classList.remove('active'));
-    currentStation = 0;
+    if (confirm("Return to start screen? Current progress will be lost.")) {
+      clearInterval(timerInterval);
+      document.getElementById('welcome-screen').style.display = 'block';
+      document.getElementById('timerContainer').style.display = 'none';
+      document.getElementById('progress-bar').style.display = 'none';
+      document.getElementById('nav-bar').style.display = 'none';
+      document.querySelectorAll('.station-card').forEach(card => card.classList.remove('active'));
+      currentStation = 0;
+      studentAnswers = {};
+      timeRemaining = 30 * 60;
+    }
   }
 
   function updateUI() {
@@ -606,7 +707,7 @@
     const nextBtn = document.getElementById('nextBtn');
     
     if (currentStation === totalStations) {
-      nextBtn.innerText = "Finish Module";
+      nextBtn.innerText = "Submit Evaluation";
     } else {
       nextBtn.innerHTML = "Next &rarr;";
     }
@@ -620,20 +721,166 @@
       currentStation--;
       updateUI();
     } else if (direction === 1 && currentStation === totalStations) {
-      alert("Congratulations! You have successfully completed the Story Map module.");
+      submitQuiz();
     }
   }
 
-  function checkAnswer(stationNum, userChoice, correctAnswer) {
-    const feedbackEl = document.getElementById(`feedback-${stationNum}`);
-    if (userChoice === correctAnswer) {
-      feedbackEl.className = "feedback-message correct";
-      feedbackEl.innerText = "Correct. You have grasped the key concept for this station.";
+  function selectAnswer(stationNum, choice) {
+    studentAnswers[stationNum] = choice;
+    const trueBtn = document.getElementById(`btn-st-${stationNum}-true`);
+    const falseBtn = document.getElementById(`btn-st-${stationNum}-false`);
+
+    if (choice === true) {
+      trueBtn.classList.add('selected');
+      falseBtn.classList.remove('selected');
     } else {
-      feedbackEl.className = "feedback-message incorrect";
-      feedbackEl.innerText = "Incorrect. Try reviewing the scene dialogue again.";
+      falseBtn.classList.add('selected');
+      trueBtn.classList.remove('selected');
     }
   }
+
+  // timer logic
+  function startTimer() {
+    clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+      timeRemaining--;
+      let mins = Math.floor(timeRemaining / 60);
+      let secs = timeRemaining % 60;
+      document.getElementById('timerDisplay').innerText = 
+        `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+
+      if (timeRemaining <= 0) {
+        clearInterval(timerInterval);
+        alert("Time limit (30 minutes) reached! Auto-submitting evaluation.");
+        submitQuiz();
+      }
+    }, 1000);
+  }
+
+  // evaluation submission
+  function submitQuiz() {
+    clearInterval(timerInterval);
+    const questions = getQuestions();
+    let score = 0;
+
+    for (let i = 1; i <= totalStations; i++) {
+      if (studentAnswers[i] === questions[i].answer) {
+        score++;
+      }
+    }
+
+    const elapsedSeconds = (30 * 60) - timeRemaining;
+    const elapsedMins = Math.floor(elapsedSeconds / 60);
+    const elapsedSecs = elapsedSeconds % 60;
+    const timeTakenStr = `${elapsedMins}m ${elapsedSecs}s`;
+
+    const results = getResults();
+    results.push({
+      name: studentName,
+      score: `${score} / ${totalStations}`,
+      timeTaken: timeTakenStr,
+      date: new Date().toLocaleString()
+    });
+
+    localStorage.setItem('thesis_student_results', JSON.stringify(results));
+    alert(`Thank you ${studentName}! Your evaluation score of ${score}/${totalStations} has been recorded.`);
+    location.reload();
+  }
+
+  // admin panel features
+  function toggleAdminView() {
+    if (!isAdminView) {
+      const pin = prompt("Enter Admin Passcode:");
+      if (pin === "1234") { // default admin passcode
+        isAdminView = true;
+        document.getElementById('adminToggleBtn').innerText = "Student Mode";
+        document.getElementById('welcome-screen').style.display = 'none';
+        document.getElementById('timerContainer').style.display = 'none';
+        document.getElementById('progress-bar').style.display = 'none';
+        document.getElementById('stationsContainer').style.display = 'none';
+        document.getElementById('nav-bar').style.display = 'none';
+        document.getElementById('adminPanel').style.display = 'block';
+        loadAdminResults();
+      } else {
+        alert("Incorrect passcode.");
+      }
+    } else {
+      isAdminView = false;
+      document.getElementById('adminToggleBtn').innerText = "Admin Mode";
+      document.getElementById('adminPanel').style.display = 'none';
+      document.getElementById('stationsContainer').style.display = 'block';
+      document.getElementById('welcome-screen').style.display = 'block';
+    }
+  }
+
+  function saveQuizQuestion() {
+    const stationNum = document.getElementById('adminQuizStation').value;
+    const questionText = document.getElementById('adminQuestionText').value.trim();
+    const correctAnswer = document.getElementById('adminCorrectAnswer').value === 'true';
+
+    if (!questionText) {
+      alert("Question text cannot be empty.");
+      return;
+    }
+
+    const questions = getQuestions();
+    questions[stationNum] = { text: questionText, answer: correctAnswer };
+    localStorage.setItem('thesis_questions', JSON.stringify(questions));
+    alert(`Station ${stationNum} question updated.`);
+    renderStations();
+  }
+
+  function uploadAudio() {
+    const stationNum = document.getElementById('adminAudioStation').value;
+    const fileInput = document.getElementById('audioFileInput');
+    
+    if (fileInput.files.length === 0) {
+      alert("Please select an audio file first.");
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = function (e) {
+      const audioTracks = getAudioTracks();
+      audioTracks[stationNum] = e.target.result;
+      localStorage.setItem('thesis_audio_tracks', JSON.stringify(audioTracks));
+      alert(`Audio saved for Station ${stationNum}`);
+      renderStations();
+    };
+    reader.readAsDataURL(fileInput.files[0]);
+  }
+
+  function loadAdminResults() {
+    const results = getResults();
+    const tbody = document.getElementById('resultsTableBody');
+    tbody.innerHTML = '';
+
+    if (results.length === 0) {
+      tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;">No submissions recorded yet.</td></tr>';
+      return;
+    }
+
+    results.forEach(res => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${res.name}</td>
+        <td>${res.score}</td>
+        <td>${res.timeTaken}</td>
+        <td>${res.date}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+  }
+
+  function clearResults() {
+    if (confirm("Are you sure you want to clear all student records?")) {
+      localStorage.removeItem('thesis_student_results');
+      loadAdminResults();
+    }
+  }
+
+  // init load
+  renderStations();
 </script>
 
 </body>
