@@ -112,8 +112,9 @@
       color: #856404;
     }
 
-    /* audio & lyrics card */
+    /* audio & lyrics card - hidden by default */
     .song-player-card {
+      display: none;
       background: #f0fdf4;
       border: 1px solid #bbf7d0;
       border-radius: 12px;
@@ -498,7 +499,7 @@
       <span>Time Remaining: <span id="timerDisplay">30:00</span></span>
     </div>
 
-    <!-- AUDIO PLAYER & LYRICS CARD FOR STUDENTS -->
+    <!-- AUDIO PLAYER & LYRICS CARD FOR STUDENTS (Visible only in Student Mode) -->
     <div class="song-player-card" id="mainSongPlayerCard">
       <div class="song-player-header">
         <span class="song-player-title">Song Audio Track: MAGTANIM AY DI BIRO _ Hiraya TV</span>
@@ -702,7 +703,7 @@ Para sa araw ng bukas.
         <h2 class="station-title">${data.title}</h2>
         
         ${audioSrc ? `
-          <div class="song-player-card">
+          <div class="song-player-card" style="display:block;">
             <div class="song-player-header">
               <span class="song-player-title">Station Track</span>
             </div>
@@ -748,6 +749,9 @@ Para sa araw ng bukas.
     studentName = input.value.trim();
     document.getElementById('displayStudentName').innerText = studentName;
     document.getElementById('welcome-screen').style.display = 'none';
+    
+    // Show audio player and student controls ONLY when journey starts
+    document.getElementById('mainSongPlayerCard').style.display = 'block';
     document.getElementById('timerContainer').style.display = 'flex';
     document.getElementById('progress-bar').style.display = 'flex';
     document.getElementById('nav-bar').style.display = 'flex';
@@ -761,11 +765,14 @@ Para sa araw ng bukas.
     if (confirm("Return to start screen? Current progress will be lost.")) {
       clearInterval(timerInterval);
       document.getElementById('welcome-screen').style.display = 'block';
-      document.getElementById('mainSongPlayerCard').style.display = 'block';
+      
+      // Hide student audio player and controls when returning to start
+      document.getElementById('mainSongPlayerCard').style.display = 'none';
       document.getElementById('timerContainer').style.display = 'none';
       document.getElementById('progress-bar').style.display = 'none';
       document.getElementById('nav-bar').style.display = 'none';
       document.querySelectorAll('.station-card').forEach(card => card.classList.remove('active'));
+      
       currentStation = 0;
       studentAnswers = {};
       timeRemaining = 30 * 60;
@@ -890,8 +897,8 @@ Para sa araw ng bukas.
       isAdminView = false;
       document.getElementById('adminToggleBtn').innerText = "Admin Mode";
       document.getElementById('adminPanel').style.display = 'none';
-      document.getElementById('mainSongPlayerCard').style.display = 'block';
-      document.getElementById('stationsContainer').style.display = 'block';
+      document.getElementById('mainSongPlayerCard').style.display = 'none';
+      document.getElementById('stationsContainer').style.display = 'none';
       document.getElementById('welcome-screen').style.display = 'block';
     }
   }
