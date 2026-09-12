@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Magtanim ay 'Di Biro - Interactive Story Map</title>
-  <!-- Google Fonts for Modern Typography -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
@@ -26,17 +25,18 @@
       padding: 0;
     }
 
-    /* FULL PAGE BACKGROUND IMAGE COVER */
+    /* main background layout */
     body {
       font-family: 'Inter', sans-serif;
       background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
                   url('bg.jpeg') center/cover no-repeat fixed;
       color: var(--text-dark);
       min-height: 100vh;
+      min-height: 100dvh;
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 15px;
+      padding: clamp(8px, 2vw, 20px);
     }
 
     .main-wrapper {
@@ -44,42 +44,43 @@
       max-width: 850px;
       background: var(--card-bg);
       backdrop-filter: blur(10px);
-      border-radius: 20px;
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: clamp(12px, 3vw, 20px);
       box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
       overflow: hidden;
       border: 1px solid rgba(255, 255, 255, 0.4);
     }
 
-    /* Top Branding Bar */
+    /* header styling */
     header {
       background: var(--primary-gradient);
       color: #ffffff;
-      padding: 20px 25px;
+      padding: clamp(14px, 3vw, 20px) clamp(16px, 4vw, 25px);
       text-align: center;
     }
 
     header h1 {
       font-family: 'Poppins', sans-serif;
-      font-size: 1.7rem;
+      font-size: clamp(1.2rem, 4vw, 1.7rem);
       font-weight: 700;
       letter-spacing: -0.5px;
       margin-bottom: 4px;
     }
 
     header p {
-      font-size: 0.9rem;
+      font-size: clamp(0.75rem, 2.5vw, 0.9rem);
       opacity: 0.9;
       font-weight: 400;
     }
 
     .content-body {
-      padding: 25px 20px;
+      padding: clamp(14px, 3.5vw, 25px) clamp(12px, 3vw, 20px);
     }
 
-    /* Welcome / Start Card */
+    /* welcome card styling */
     .welcome-card {
       text-align: center;
-      padding: 30px 18px;
+      padding: clamp(20px, 4vw, 30px) clamp(12px, 3vw, 18px);
       border-radius: 16px;
       background: rgba(255, 255, 255, 0.85);
       border: 2px dashed rgba(46, 125, 50, 0.3);
@@ -89,24 +90,24 @@
     .welcome-card h2 {
       font-family: 'Poppins', sans-serif;
       color: var(--primary-green);
-      font-size: 1.5rem;
+      font-size: clamp(1.2rem, 3.5vw, 1.5rem);
       margin-bottom: 12px;
     }
 
     .welcome-card p {
-      font-size: 0.98rem;
+      font-size: clamp(0.88rem, 2.5vw, 0.98rem);
       line-height: 1.6;
       color: var(--text-dark);
       max-width: 620px;
       margin: 0 auto 25px auto;
     }
 
-    /* Buttons */
+    /* button components */
     .btn-primary {
       background: var(--primary-gradient);
       color: #ffffff;
       font-family: 'Poppins', sans-serif;
-      font-size: 1rem;
+      font-size: clamp(0.88rem, 2.5vw, 1rem);
       font-weight: 600;
       padding: 12px 30px;
       border-radius: 50px;
@@ -116,6 +117,7 @@
       transition: all 0.25s ease;
       display: inline-flex;
       align-items: center;
+      justify-content: center;
       gap: 8px;
     }
 
@@ -124,11 +126,11 @@
       box-shadow: 0 6px 18px rgba(46, 125, 50, 0.4);
     }
 
-    /* Progress Tracker Nodes */
+    /* progress tracker styling */
     .progress-bar {
       display: none;
       justify-content: space-between;
-      margin-bottom: 25px;
+      margin-bottom: clamp(16px, 4vw, 25px);
       position: relative;
       padding: 0 5px;
     }
@@ -137,8 +139,8 @@
       content: '';
       position: absolute;
       top: 50%;
-      left: 20px;
-      right: 20px;
+      left: 15px;
+      right: 15px;
       height: 4px;
       background: #e2e8f0;
       z-index: 1;
@@ -146,8 +148,8 @@
     }
 
     .step-node {
-      width: 38px;
-      height: 38px;
+      width: clamp(28px, 7vw, 38px);
+      height: clamp(28px, 7vw, 38px);
       border-radius: 50%;
       background: #ffffff;
       border: 3px solid #cbd5e1;
@@ -156,7 +158,7 @@
       align-items: center;
       justify-content: center;
       font-weight: 700;
-      font-size: 0.95rem;
+      font-size: clamp(0.75rem, 2.5vw, 0.95rem);
       z-index: 2;
       transition: all 0.3s ease;
     }
@@ -175,7 +177,7 @@
       color: #ffffff;
     }
 
-    /* Station Content Styling */
+    /* station card component */
     .station-card {
       display: none;
       animation: fadeIn 0.4s ease-out;
@@ -195,38 +197,38 @@
       background: #e8f5e9;
       color: var(--primary-green);
       font-weight: 600;
-      font-size: 0.8rem;
-      padding: 5px 12px;
+      font-size: clamp(0.7rem, 2vw, 0.8rem);
+      padding: 4px 10px;
       border-radius: 20px;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
       text-transform: uppercase;
       letter-spacing: 0.5px;
     }
 
     .station-title {
       font-family: 'Poppins', sans-serif;
-      font-size: 1.35rem;
+      font-size: clamp(1.1rem, 3.5vw, 1.35rem);
       color: var(--text-dark);
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     .scene-card {
       background: #f8fafc;
       border-left: 4px solid var(--primary-green);
-      padding: 14px 16px;
+      padding: clamp(10px, 2.5vw, 14px) clamp(12px, 3vw, 16px);
       border-radius: 8px;
-      margin-bottom: 18px;
-      font-size: 0.92rem;
+      margin-bottom: 16px;
+      font-size: clamp(0.85rem, 2.5vw, 0.92rem);
       line-height: 1.5;
     }
 
-    /* Dialogue Cards with Avatars */
+    /* dialogue components */
     .dialogue-wrapper {
       background: #fffbeb;
       border: 1px solid #fef3c7;
       border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 20px;
+      padding: clamp(12px, 3vw, 16px);
+      margin-bottom: 18px;
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -236,7 +238,7 @@
       display: flex;
       align-items: flex-start;
       gap: 10px;
-      font-size: 0.92rem;
+      font-size: clamp(0.85rem, 2.5vw, 0.92rem);
       line-height: 1.5;
     }
 
@@ -247,28 +249,29 @@
       border-radius: 8px;
       color: white;
       white-space: nowrap;
+      flex-shrink: 0;
     }
 
     .avatar.mutya { background: var(--mutya-color); }
     .avatar.isko { background: var(--isko-color); }
 
-    /* Interactive Quiz Box */
+    /* quiz card component */
     .quiz-card {
       background: #ffffff;
       border: 2px solid #e2e8f0;
       border-radius: 14px;
-      padding: 18px;
+      padding: clamp(14px, 3vw, 18px);
     }
 
     .quiz-card p {
       font-weight: 600;
-      font-size: 0.95rem;
+      font-size: clamp(0.88rem, 2.5vw, 0.95rem);
       margin-bottom: 14px;
     }
 
     .option-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
       gap: 10px;
     }
 
@@ -278,10 +281,11 @@
       border: 2px solid #cbd5e1;
       background: #ffffff;
       font-weight: 600;
-      font-size: 0.95rem;
+      font-size: clamp(0.85rem, 2.5vw, 0.95rem);
       color: var(--text-dark);
       cursor: pointer;
       transition: all 0.2s ease;
+      width: 100%;
     }
 
     .btn-quiz:hover {
@@ -295,7 +299,7 @@
       padding: 10px 14px;
       border-radius: 8px;
       font-weight: 500;
-      font-size: 0.9rem;
+      font-size: clamp(0.8rem, 2.2vw, 0.9rem);
       display: none;
     }
 
@@ -313,12 +317,12 @@
       display: block;
     }
 
-    /* Bottom Navigation */
+    /* navigation bar styling */
     .nav-bar {
       display: none;
       justify-content: space-between;
       align-items: center;
-      margin-top: 25px;
+      margin-top: 20px;
       padding-top: 15px;
       border-top: 2px solid #f1f5f9;
       gap: 10px;
@@ -337,48 +341,21 @@
       border-radius: 8px;
       border: none;
       cursor: pointer;
-      font-size: 0.88rem;
+      font-size: clamp(0.8rem, 2.2vw, 0.88rem);
     }
 
     .btn-secondary:hover { background: #cbd5e1; }
     .btn-secondary:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    /* MOBILE RESPONSIVE QUERIES */
-    @media (max-width: 600px) {
-      body {
-        padding: 10px;
-      }
-
-      header h1 {
-        font-size: 1.4rem;
-      }
-
-      header p {
-        font-size: 0.8rem;
-      }
-
-      .content-body {
-        padding: 18px 14px;
-      }
-
-      .step-node {
-        width: 32px;
-        height: 32px;
-        font-size: 0.85rem;
-      }
-
-      .progress-bar::before {
-        left: 10px;
-        right: 10px;
-      }
-
+    /* responsive media queries */
+    @media (max-width: 500px) {
       .option-grid {
         grid-template-columns: 1fr;
       }
 
       .nav-bar {
         flex-direction: column-reverse;
-        gap: 12px;
+        gap: 10px;
       }
 
       .nav-bar > button, .nav-group-right {
@@ -394,6 +371,13 @@
         justify-content: center;
       }
     }
+
+    @media (max-width: 340px) {
+      .chat-bubble {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
   </style>
 </head>
 <body>
@@ -405,7 +389,7 @@
   </header>
 
   <div class="content-body">
-    <!-- START / WELCOME SCREEN -->
+    <!-- start / welcome screen -->
     <div class="welcome-card" id="welcome-screen">
       <h2>Welcome to Our Thesis Exploration</h2>
       <p>
@@ -416,7 +400,7 @@
       </button>
     </div>
 
-    <!-- PROGRESS TRACKER -->
+    <!-- progress tracker -->
     <div class="progress-bar" id="progress-bar">
       <div class="step-node active" id="node-1">1</div>
       <div class="step-node" id="node-2">2</div>
@@ -425,7 +409,7 @@
       <div class="step-node" id="node-5">5</div>
     </div>
 
-    <!-- STATION 1 -->
+    <!-- station 1 -->
     <div class="station-card" id="station-1">
       <span class="station-badge">Station 1: Konteksto (Context)</span>
       <h2 class="station-title">Awit bilang Bahagi ng Kulturang Pangkabukiran</h2>
@@ -455,7 +439,7 @@
       </div>
     </div>
 
-    <!-- STATION 2 -->
+    <!-- station 2 -->
     <div class="station-card" id="station-2">
       <span class="station-badge">Station 2: Teksto (Lyrics & Labor)</span>
       <h2 class="station-title">Pisikal na Hirap ng Paggawa</h2>
@@ -485,7 +469,7 @@
       </div>
     </div>
 
-    <!-- STATION 3 -->
+    <!-- station 3 -->
     <div class="station-card" id="station-3">
       <span class="station-badge">Station 3: Pag-uugnay (Connection)</span>
       <h2 class="station-title">Kolektibong Pagkilos at Produksyon</h2>
@@ -515,7 +499,7 @@
       </div>
     </div>
 
-    <!-- STATION 4 -->
+    <!-- station 4 -->
     <div class="station-card" id="station-4">
       <span class="station-badge">Station 4: Diskurso (Social Issues)</span>
       <h2 class="station-title">Kanta tungo sa Isyung Panlipunan & Policy</h2>
@@ -527,7 +511,7 @@
       <div class="dialogue-wrapper">
         <div class="chat-bubble">
           <span class="avatar mutya">Mutya</span>
-          <div>"Kahit pala may modernisasyon at bagong teknolohiya, nananatili pa rin ang usapin ng utang at hindi pantay na pagmamay-ari ng lupa?"</div>
+          <div>"Kahit pala may modernisasyon at bagong teknolohiya, nananatili pa rin ang usapin ng utang at hindi pantay na pagmamay-ari ngupa?"</div>
         </div>
         <div class="chat-bubble">
           <span class="avatar isko">Mang Isko</span>
@@ -545,7 +529,7 @@
       </div>
     </div>
 
-    <!-- STATION 5 -->
+    <!-- station 5 -->
     <div class="station-card" id="station-5">
       <span class="station-badge">Station 5: Paglalagom (Synthesis)</span>
       <h2 class="station-title">Pag-unawa sa Awit Higit sa Simpleng Larawan</h2>
@@ -575,7 +559,7 @@
       </div>
     </div>
 
-    <!-- NAVIGATION BAR -->
+    <!-- navigation bar -->
     <div class="nav-bar" id="nav-bar">
       <button class="btn-secondary" onclick="goToStart()">Start</button>
       <div class="nav-group-right">
