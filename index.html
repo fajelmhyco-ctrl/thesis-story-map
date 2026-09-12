@@ -112,6 +112,60 @@
       color: #856404;
     }
 
+    /* audio & lyrics card */
+    .song-player-card {
+      background: #f0fdf4;
+      border: 1px solid #bbf7d0;
+      border-radius: 12px;
+      padding: 16px;
+      margin-bottom: 20px;
+    }
+
+    .song-player-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .song-player-title {
+      font-family: 'Poppins', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 600;
+      color: var(--primary-green);
+    }
+
+    .lyrics-toggle-btn {
+      background: none;
+      border: none;
+      color: var(--primary-green);
+      font-size: 0.82rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+
+    audio {
+      width: 100%;
+      height: 38px;
+      margin-bottom: 8px;
+    }
+
+    .lyrics-box {
+      display: none;
+      background: #ffffff;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      padding: 12px;
+      margin-top: 10px;
+      max-height: 140px;
+      overflow-y: auto;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--text-dark);
+      white-space: pre-line;
+    }
+
     /* welcome card */
     .welcome-card {
       text-align: center;
@@ -170,27 +224,6 @@
     .btn-primary:hover {
       transform: translateY(-2px);
       box-shadow: 0 6px 18px rgba(46, 125, 50, 0.4);
-    }
-
-    /* audio player component */
-    .audio-player-box {
-      margin: 15px 0;
-      padding: 12px;
-      background: #f1f5f9;
-      border-radius: 10px;
-      border: 1px solid #e2e8f0;
-    }
-
-    .audio-player-box p {
-      font-size: 0.8rem;
-      color: var(--text-muted);
-      margin-bottom: 6px;
-      font-weight: 600;
-    }
-
-    audio {
-      width: 100%;
-      height: 36px;
     }
 
     /* progress bar */
@@ -465,6 +498,36 @@
       <span>Time Remaining: <span id="timerDisplay">30:00</span></span>
     </div>
 
+    <!-- AUDIO PLAYER & LYRICS CARD FOR STUDENTS -->
+    <div class="song-player-card" id="mainSongPlayerCard">
+      <div class="song-player-header">
+        <span class="song-player-title">Song Audio Track: Magtanim ay 'Di Biro</span>
+        <button class="lyrics-toggle-btn" onclick="toggleLyrics('mainLyricsBox')">Toggle Lyrics</button>
+      </div>
+      <audio id="mainAudioPlayer" controls src="audio.mp3"></audio>
+      <div class="lyrics-box" id="mainLyricsBox">
+Magtanim ay 'di biro,
+Maghapong nakayuko.
+'Di man lang makatayo,
+'Di man lang makaupo.
+
+Bisig ko'y namamanhid,
+Baywang ko'y nangangatal.
+Binti ko'y namimintig,
+Sa pagkababad sa tubig.
+
+Sa umagang pagkagising,
+Lahat ay iisipin.
+Kung saan may patanim,
+May masarap na pagkain.
+
+Halina, halina, mga kalupa,
+Tayo'y magsipag-unat-unat.
+Magpanibago tayo ng lakas,
+Para sa araw ng bukas.
+      </div>
+    </div>
+
     <!-- STUDENT / WELCOME SCREEN -->
     <div class="welcome-card" id="welcome-screen">
       <h2>Welcome to Our Thesis Exploration</h2>
@@ -508,8 +571,9 @@
       <!-- Audio Management -->
       <div class="admin-section">
         <h3>1. Audio Settings</h3>
-        <p style="font-size:0.85rem; margin-bottom:10px;">Upload an audio file for the station track playback.</p>
+        <p style="font-size:0.85rem; margin-bottom:10px;">Upload an audio file for the main song track or specific station playback.</p>
         <select id="adminAudioStation" class="admin-select">
+          <option value="main">Main Song Track</option>
           <option value="1">Station 1 Track</option>
           <option value="2">Station 2 Track</option>
           <option value="3">Station 3 Track</option>
@@ -604,12 +668,26 @@
     return JSON.parse(localStorage.getItem('thesis_student_results')) || [];
   }
 
+  function toggleLyrics(boxId) {
+    const box = document.getElementById(boxId);
+    if (box.style.display === "block") {
+      box.style.display = "none";
+    } else {
+      box.style.display = "block";
+    }
+  }
+
   // render station dynamic cards
   function renderStations() {
     const questions = getQuestions();
     const audioTracks = getAudioTracks();
     const container = document.getElementById('stationsContainer');
     container.innerHTML = '';
+
+    // load main audio track if set by admin
+    if (audioTracks['main']) {
+      document.getElementById('mainAudioPlayer').src = audioTracks['main'];
+    }
 
     for (let i = 1; i <= totalStations; i++) {
       const data = defaultScenes[i];
@@ -624,8 +702,10 @@
         <h2 class="station-title">${data.title}</h2>
         
         ${audioSrc ? `
-          <div class="audio-player-box">
-            <p>Station Audio Track:</p>
+          <div class="song-player-card">
+            <div class="song-player-header">
+              <span class="song-player-title">Station Track</span>
+            </div>
             <audio controls src="${audioSrc}"></audio>
           </div>
         ` : ''}
@@ -681,6 +761,7 @@
     if (confirm("Return to start screen? Current progress will be lost.")) {
       clearInterval(timerInterval);
       document.getElementById('welcome-screen').style.display = 'block';
+      document.getElementById('mainSongPlayerCard').style.display = 'block';
       document.getElementById('timerContainer').style.display = 'none';
       document.getElementById('progress-bar').style.display = 'none';
       document.getElementById('nav-bar').style.display = 'none';
@@ -795,6 +876,7 @@
         isAdminView = true;
         document.getElementById('adminToggleBtn').innerText = "Student Mode";
         document.getElementById('welcome-screen').style.display = 'none';
+        document.getElementById('mainSongPlayerCard').style.display = 'none';
         document.getElementById('timerContainer').style.display = 'none';
         document.getElementById('progress-bar').style.display = 'none';
         document.getElementById('stationsContainer').style.display = 'none';
@@ -808,6 +890,7 @@
       isAdminView = false;
       document.getElementById('adminToggleBtn').innerText = "Admin Mode";
       document.getElementById('adminPanel').style.display = 'none';
+      document.getElementById('mainSongPlayerCard').style.display = 'block';
       document.getElementById('stationsContainer').style.display = 'block';
       document.getElementById('welcome-screen').style.display = 'block';
     }
@@ -831,7 +914,7 @@
   }
 
   function uploadAudio() {
-    const stationNum = document.getElementById('adminAudioStation').value;
+    const targetKey = document.getElementById('adminAudioStation').value;
     const fileInput = document.getElementById('audioFileInput');
     
     if (fileInput.files.length === 0) {
@@ -842,9 +925,9 @@
     const reader = new FileReader();
     reader.onload = function (e) {
       const audioTracks = getAudioTracks();
-      audioTracks[stationNum] = e.target.result;
+      audioTracks[targetKey] = e.target.result;
       localStorage.setItem('thesis_audio_tracks', JSON.stringify(audioTracks));
-      alert(`Audio saved for Station ${stationNum}`);
+      alert(`Audio saved for target: ${targetKey}`);
       renderStations();
     };
     reader.readAsDataURL(fileInput.files[0]);
